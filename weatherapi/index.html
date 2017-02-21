@@ -1,0 +1,49 @@
+<script src="https://unpkg.com/vue@2.1.10/dist/vue.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.15.3/axios.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<div id="app">
+  <button @click="getWeather()" class="btn btn-default">
+  	Get Weather
+  </button>
+  <p>
+  	Temp: {{temp}}
+  </p>
+  <p>{{weatherData}}</p>
+  
+  <button @click="getData()" class="btn btn-default">
+  	Get Data
+  </button>
+</div>
+
+<script>
+new Vue({
+	el:'#app',
+	methods: {
+		getWeather: function() {
+		//api.openweathermap.org/data/2.5/forecast/city?id=524901&APPID=b5197f071691d3e7efedc2abf10dab62 
+			var vm = this
+			axios.get('http://api.openweathermap.org/data/2.5/weather?zip=95687,us&APPID=b5197f071691d3e7efedc2abf10dab62&units=imperial')
+			.then(function (response) {
+				console.log(response);
+				vm.temp = response.data.main.temp;
+				vm.weatherData = response;
+			}).catch(function(error) {
+				console.log(error);
+			});
+		},
+		getData: function() {
+			axios.get('https://jsonplaceholder.typicode.com/posts')
+			.then(function(response) {
+				console.log(response);
+			}).catch(function(error) {
+				console.log(error);
+			});
+		}
+	},
+	data: {
+		temp: 0,
+		weatherData: {}
+	}
+})
+</script>

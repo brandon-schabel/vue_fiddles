@@ -1,0 +1,48 @@
+<script src="https://unpkg.com/vue@2.1.10/dist/vue.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.15.3/axios.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<div id="app">
+  <button @click="getPosts()" class="btn btn-default">
+  	Get Posts
+  </button>
+  <div>
+	<ul>
+		<li v-for="post in posts">
+			<div>
+				<h1>
+					Title: {{post.post_title}}
+				</h1>
+				<div>
+					Content: {{post.post_content}}
+				</div>
+			</div>
+		</li>
+	</ul>
+  <div>
+  
+  <p>
+  	Posts: {{posts}}
+  </p>
+</div>
+
+<script>
+new Vue({
+	el:'#app',
+	methods: {
+		getPosts: function() {
+			var vm = this
+			axios.get('http://127.0.0.1:5000/viewallpostsapi')
+			.then(function (response) {
+				console.log(response);
+				vm.posts = response.data;
+			}).catch(function(error) {
+				console.log(error);
+			});
+		}
+	},
+	data: {
+		posts: [],
+	}
+})
+</script>
